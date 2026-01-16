@@ -2,10 +2,8 @@
 import os
 import asyncio
 import json
-import logging
 import subprocess
 from pathlib import Path
-from datetime import datetime
 from typing import Optional
 
 import sys

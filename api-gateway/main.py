@@ -1,12 +1,11 @@
 """API Gateway service for STT transcription."""
 import os
 import uuid
-import logging
 import json
 from pathlib import Path
 from datetime import datetime
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, Response, status
+from fastapi import FastAPI, UploadFile, File, HTTPException, status
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import asyncio
@@ -17,10 +16,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from shared.models import (
     JobUploadResponse,
-    JobStatusRequest,
     JobStatus,
-    JobMetadata,
-    ProcessingMessage,
 )
 from shared.redis_client import RedisClient
 from shared.logging_config import setup_logging

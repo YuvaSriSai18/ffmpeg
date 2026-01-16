@@ -14,8 +14,7 @@ from urllib.parse import urlparse
 
 API_BASE = "http://localhost:8000"
 # Default to local file, but can be overridden by environment variable or command line
-# AUDIO_FILE = os.getenv("AUDIO_FILE", "audio/sample_audio.mp3")
-AUDIO_FILE = "https://firebasestorage.googleapis.com/v0/b/cloud0924.appspot.com/o/sample-3.mp3?alt=media&token=75210a4c-7c33-4024-bfeb-adcaac659dbf"
+AUDIO_FILE = os.getenv("AUDIO_FILE", "audio/sample_audio.mp3")
 
 def print_header(text):
     print(f"\n{'='*60}")
