@@ -525,21 +525,6 @@ MAX_FILE_SIZE=500  # 500MB
 
 MIT License - See LICENSE file for details
 
-## 🤝 Contributing
-
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📧 Support
-
-For issues and questions:
-- GitHub Issues: [Repository Issues](https://github.com/yourrepo/issues)
-- Documentation: This README
-- API Docs: http://localhost:8000/docs
-
 ## 🔄 Changelog
 
 ### Version 1.0.0 (2026-01-13)
