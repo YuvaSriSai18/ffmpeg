@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from shared.models import (
     JobUploadResponse,
     JobStatus,
+    JobMetadata,
 )
 from shared.redis_client import RedisClient
 from shared.logging_config import setup_logging
