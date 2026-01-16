@@ -1,0 +1,3 @@
+openai-whisper==20231117
+pydantic==2.5.0
+redis==5.0.1

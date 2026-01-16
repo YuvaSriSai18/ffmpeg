@@ -1,0 +1,90 @@
+services:
+  # Redis for job queue and metadata
+  redis:
+    image: redis:7
+    container_name: stt-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - stt-network
+    restart: unless-stopped
+
+  # API Gateway - HTTP interface
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: stt-api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATA_DIR=/data
+      - LOG_LEVEL=INFO
+      - MAX_FILE_SIZE=100
+    volumes:
+      - ./data:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - stt-network
+    restart: unless-stopped
+
+  # Audio Processor - FFmpeg conversion (includes FFmpeg in Docker image)
+  audio-processor:
+    build:
+      context: .
+      dockerfile: audio-processor/Dockerfile
+    container_name: stt-audio-processor
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATA_DIR=/data
+      - WORKER_CONCURRENCY=2
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - stt-network
+    restart: unless-stopped
+
+  # Transcriber - OpenAI Whisper (base model)
+  transcriber:
+    build:
+      context: .
+      dockerfile: transcriber/Dockerfile
+    container_name: stt-transcriber
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATA_DIR=/data
+      - WHISPER_MODEL=base
+      - WORKER_CONCURRENCY=1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/data
+      - whisper_models:/root/.cache/whisper
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - stt-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  whisper_models:
+
+networks:
+  stt-network:
+    driver: bridge
