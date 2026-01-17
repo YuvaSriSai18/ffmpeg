@@ -1,3 +1,7 @@
 openai-whisper==20231117
 pydantic==2.5.0
 redis==5.0.1
+numpy>=1.24.0
+# Optional: For Silero VAD support
+# onnxruntime>=1.16.0  # Uncomment for production VAD
+# silero-vad  # Install from: https://github.com/snakers4/silero-vad

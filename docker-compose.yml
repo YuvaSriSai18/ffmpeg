@@ -49,6 +49,7 @@ services:
       - REDIS_URL=redis://redis:6379
       - DATA_DIR=/data
       - WORKER_CONCURRENCY=2
+      - STREAMING_WORKERS=1  # NEW: Support for WebSocket streaming
       - LOG_LEVEL=INFO
     volumes:
       - ./data:/data
@@ -70,6 +71,7 @@ services:
       - DATA_DIR=/data
       - WHISPER_MODEL=base
       - WORKER_CONCURRENCY=1
+      - STREAMING_WORKERS=1  # NEW: Support for WebSocket streaming
       - LOG_LEVEL=INFO
     volumes:
       - ./data:/data
