@@ -1,4 +1,4 @@
-openai-whisper==20231117
+openai-whisper>=20240314
 pydantic==2.5.0
 redis==5.0.1
 numpy>=1.24.0

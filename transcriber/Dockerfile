@@ -6,7 +6,14 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     libsndfile1 \
+    build-essential \
+    python3-dev \
+    python3-setuptools \
+    git \
     && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip, setuptools, and wheel
+RUN pip install --no-cache-dir --upgrade pip wheel
 
 # Copy requirements
 COPY transcriber/requirements.txt .
