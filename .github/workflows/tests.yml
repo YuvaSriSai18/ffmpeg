@@ -44,6 +44,11 @@ jobs:
           pip install -r api-gateway/requirements.txt
           pip install pytest pytest-asyncio pytest-timeout
 
+      - name: Clean up any existing containers and ports
+        run: |
+          docker compose -f docker-compose-single.yml down -v 2>/dev/null || true
+          sleep 5
+
       - name: Build Docker images
         run: docker compose -f docker-compose-single.yml build
 
@@ -51,7 +56,16 @@ jobs:
         run: |
           docker compose -f docker-compose-single.yml up -d
           echo "Waiting for services to be ready..."
-          sleep 30
+          sleep 10
+          # Check if Redis is responding
+          for i in {1..30}; do
+            if docker exec stt-redis redis-cli ping 2>/dev/null | grep -q PONG; then
+              echo "Redis is ready"
+              break
+            fi
+            echo "Waiting for Redis... ($i/30)"
+            sleep 1
+          done
 
       - name: Check service health
         run: |
