@@ -45,18 +45,18 @@ jobs:
           pip install pytest pytest-asyncio pytest-timeout
 
       - name: Build Docker images
-        run: docker-compose -f docker-compose-single.yml build
+        run: docker compose -f docker-compose-single.yml build
 
       - name: Start services
         run: |
-          docker-compose -f docker-compose-single.yml up -d
+          docker compose -f docker-compose-single.yml up -d
           echo "Waiting for services to be ready..."
           sleep 30
 
       - name: Check service health
         run: |
-          docker-compose -f docker-compose-single.yml ps
-          docker-compose -f docker-compose-single.yml logs
+          docker compose -f docker-compose-single.yml ps
+          docker compose -f docker-compose-single.yml logs
 
       - name: Run API endpoint tests
         run: |
@@ -88,13 +88,13 @@ jobs:
         if: failure()
         run: |
           echo "=== Docker Compose Logs ==="
-          docker-compose -f docker-compose-single.yml logs || true
+          docker compose -f docker-compose-single.yml logs || true
           echo "=== Service Status ==="
-          docker-compose -f docker-compose-single.yml ps || true
+          docker compose -f docker-compose-single.yml ps || true
 
       - name: Clean up
         if: always()
-        run: docker-compose -f docker-compose-single.yml down -v
+        run: docker compose -f docker-compose-single.yml down -v
 
   build-check:
     runs-on: ubuntu-latest
